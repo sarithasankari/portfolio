@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,14 +21,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-apv9co&lnrqo57n_d-zjsm@=lwf&t%a(g)7d=k0rr91*ve5y2&'
+# On Render, set this in the Environment Variables
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-apv9co&lnrqo57n_d-zjsm@=lwf&t%a(g)7d=k0rr91*ve5y2&')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+# On Render, make sure to set RENDER=true in env vars to turn off Debug
+DEBUG = 'RENDER' not in os.environ
 
-
-ALLOWED_HOSTS = ['yourusername.pythonanywhere.com']
-
+ALLOWED_HOSTS = ['*']  # For beginners, '*' is easiest, or add '.onrender.com'
 
 
 # Application definition
@@ -44,14 +45,13 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', # Add WhiteNoise here
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'portfolio_project.urls'
@@ -79,12 +79,8 @@ WSGI_APPLICATION = 'portfolio_project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'portfolio_db1',
-        'USER': 'root',
-        'PASSWORD': '12345',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -126,5 +122,15 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+# Enable WhiteNoise's compression and caching support
+if 'RENDER' in os.environ:
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# Default primary key field type
+# https://docs.djangoproject.com/en/6.0/ref/settings/#default-auto-field
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
