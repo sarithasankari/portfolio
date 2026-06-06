@@ -34,12 +34,12 @@ def download_resume(request):
     """Serve the resume file as a forced download (works for PDF, DOCX, etc.)"""
     # Look in the app's static folder
     resume_path = os.path.join(
-        settings.BASE_DIR, 'portfolio', 'static', 'portfolio', 'resume', 'Saritha_N_Resume.pdf'
+        settings.BASE_DIR, 'portfolio', 'static', 'portfolio', 'resume', 'Saritha_N_PythonFullStack.pdf'
     )
     if not os.path.exists(resume_path):
         raise Http404("Resume file not found.")
 
-    response = FileResponse(open(resume_path, 'rb'), content_type='application/octet-stream')
+    response = FileResponse(open(resume_path, 'rb'), content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename="Saritha_N_Resume.pdf"'
     return response
 
