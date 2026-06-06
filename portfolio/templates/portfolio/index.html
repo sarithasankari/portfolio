@@ -733,38 +733,121 @@
             display: none;
             position: fixed;
             z-index: 2000;
-            padding-top: 50px;
             left: 0;
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.9);
+            background-color: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(6px);
+            animation: fadeInModal 0.25s ease;
+        }
+
+        @keyframes fadeInModal {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+
+        .cert-modal-inner {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            padding: 20px;
         }
 
         .cert-modal-content {
-            margin: auto;
             display: block;
-            max-width: 90%;
+            max-width: 92%;
             max-height: 80vh;
             object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+            animation: zoomIn 0.3s ease;
         }
 
+        @keyframes zoomIn {
+            from { transform: scale(0.85); opacity: 0; }
+            to   { transform: scale(1);    opacity: 1; }
+        }
+
+        .cert-modal-caption {
+            color: rgba(255,255,255,0.85);
+            font-size: 1rem;
+            margin-top: 14px;
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+        }
+
+        /* Styled Close Button */
         .cert-modal-close {
-            position: absolute;
-            top: 15px;
-            right: 35px;
-            color: #f1f1f1;
-            font-size: 40px;
-            font-weight: bold;
-            transition: 0.3s;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 44px;
+            height: 44px;
+            background: rgba(255,255,255,0.15);
+            border: 2px solid rgba(255,255,255,0.4);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
+            transition: all 0.25s ease;
+            z-index: 2100;
         }
 
-        .cert-modal-close:hover,
-        .cert-modal-close:focus {
-            color: #bbb;
-            text-decoration: none;
+        .cert-modal-close i {
+            color: white;
+            font-size: 1.1rem;
+            pointer-events: none;
+        }
+
+        .cert-modal-close:hover {
+            background: var(--view-work);
+            border-color: var(--view-work);
+            transform: rotate(90deg) scale(1.1);
+        }
+
+        /* Clickable cert image */
+        .cert-img {
+            height: 200px;
+            overflow: hidden;
             cursor: pointer;
+            position: relative;
+        }
+
+        .cert-img::after {
+            content: '\f00e';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            background: rgba(26, 83, 92, 0.0);
+            transition: background 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .cert-img:hover::after {
+            background: rgba(26, 83, 92, 0.55);
+            opacity: 1;
+        }
+
+        .cert-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.35s ease;
+        }
+
+        .cert-img:hover img {
+            transform: scale(1.07);
         }
 
         /* Contact Section */
@@ -1372,7 +1455,7 @@
             <div class="cert-grid">
                 {% for cert in certifications %}
                 <div class="cert-card">
-                    <div class="cert-img">
+                    <div class="cert-img" {% if cert.image %}data-img="{{ cert.image.url }}" data-title="{{ cert.title }}" role="button" aria-label="View {{ cert.title }}"{% endif %}>
                         {% if cert.image %}
                         <img src="{{ cert.image.url }}" alt="{{ cert.title }}">
                         {% endif %}
@@ -1383,10 +1466,8 @@
                         <div class="cert-details">
                             <span class="cert-date">{{ cert.period }}</span>
                         </div>
-                        {% if cert.link %}
-                        <a href="{{ cert.link }}" class="btn" target="_blank">View Certificate</a>
-                        {% elif cert.image %}
-                        <a href="{{ cert.image.url }}" class="btn cert-lightbox-link">View Certificate</a>
+                        {% if cert.image %}
+                        <a href="{{ cert.image.url }}" class="btn cert-lightbox-link" data-title="{{ cert.title }}">View Certificate</a>
                         {% endif %}
                     </div>
                 </div>
@@ -1478,9 +1559,14 @@
     </footer>
 
     <!-- Certificate Lightbox Modal -->
-    <div id="certModal" class="cert-modal">
-        <span class="cert-modal-close">&times;</span>
-        <img class="cert-modal-content" id="certModalImg">
+    <div id="certModal" class="cert-modal" role="dialog" aria-modal="true" aria-label="Certificate viewer">
+        <div class="cert-modal-inner">
+            <div class="cert-modal-close" id="certModalClose" title="Close (Esc)">
+                <i class="fas fa-times"></i>
+            </div>
+            <img class="cert-modal-content" id="certModalImg" alt="Certificate">
+            <p class="cert-modal-caption" id="certModalCaption"></p>
+        </div>
     </div>
 
     <script>
@@ -1519,10 +1605,8 @@
                 });
             });
 
-            // Form submission
-            if (contactForm) {
-                // Form submission handled by Django
-            }
+            // Form submission is handled by Django directly via POST
+
 
             // Header background on scroll
             window.addEventListener('scroll', function () {
@@ -1537,31 +1621,57 @@
             });
 
             // Certificate Modal Logic
-            const modal = document.getElementById("certModal");
-            const modalImg = document.getElementById("certModalImg");
-            const closeBtn = document.getElementsByClassName("cert-modal-close")[0];
+            const modal    = document.getElementById('certModal');
+            const modalImg = document.getElementById('certModalImg');
+            const modalCap = document.getElementById('certModalCaption');
+            const closeBtn = document.getElementById('certModalClose');
 
+            function openModal(imgSrc, title) {
+                modalImg.src = imgSrc;
+                modalCap.textContent = title || '';
+                modal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeModal() {
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
+                modalImg.src = '';
+            }
+
+            // Click on "View Certificate" buttons
             document.querySelectorAll('.cert-lightbox-link').forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
-                    modal.style.display = "block";
-                    modalImg.src = this.href;
+                    openModal(this.getAttribute('href'), this.dataset.title);
                 });
             });
 
-            if (closeBtn) {
-                closeBtn.onclick = function() {
-                    modal.style.display = "none";
-                }
+            // Click on cert image thumbnails
+            document.querySelectorAll('.cert-img[data-img]').forEach(imgDiv => {
+                imgDiv.addEventListener('click', function() {
+                    openModal(this.dataset.img, this.dataset.title);
+                });
+            });
+
+            // Close button
+            if (closeBtn) closeBtn.addEventListener('click', closeModal);
+
+            // Click outside the image to close
+            if (modal) {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal || e.target === document.querySelector('.cert-modal-inner')) {
+                        closeModal();
+                    }
+                });
             }
 
-            if (modal) {
-                modal.onclick = function(e) {
-                    if (e.target !== modalImg) {
-                        modal.style.display = "none";
-                    }
+            // Escape key to close
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && modal.style.display === 'block') {
+                    closeModal();
                 }
-            }
+            });
         });
     </script>
 </body>
