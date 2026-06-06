@@ -1111,34 +1111,110 @@
             </div>
 
             <div class="projects-grid">
-                {% for project in projects %}
+
+                <!-- Project 1: CRM System -->
                 <div class="project-card">
                     <div class="project-img">
-                        {% if project.image %}
-                        <img src="{{ project.image.url }}" alt="{{ project.title }}">
-                        {% endif %}
+                        <img src="{% static 'portfolio/images/crm_project.png' %}" alt="Customer Relationship Management System">
                     </div>
                     <div class="project-content">
-                        <h3>{{ project.title }}</h3>
-                        <p>{{ project.description }}</p>
+                        <h3>Customer Relationship Management (CRM) System</h3>
+                        <p>Developed a full-stack CRM application for managing customer information and business interactions. Built a responsive frontend using React.js and Tailwind CSS, integrated with a Django backend and SQL database. Implemented authentication, customer management, and CRUD functionalities.</p>
                         <div class="project-tags">
-                            {% for tag in project.tag_list %}
-                            <span class="project-tag">{{ tag }}</span>
-                            {% endfor %}
+                            <span class="project-tag">React.js</span>
+                            <span class="project-tag">Tailwind CSS</span>
+                            <span class="project-tag">Django</span>
+                            <span class="project-tag">SQL</span>
                         </div>
                         <div class="project-links">
-                            {% if project.link %}
-                            <a href="{{ project.link }}" class="btn" target="_blank">View Project</a>
-                            {% endif %}
+                            <a href="https://github.com/sarithasankari/CRM" class="btn" target="_blank">View Project</a>
                         </div>
                     </div>
                 </div>
-                {% empty %}
-                <p>No projects yet.</p>
-                {% endfor %}
+
+                <!-- Project 2: Review Analyzer -->
+                <div class="project-card">
+                    <div class="project-img">
+                        <img src="{% static 'portfolio/images/review_analyzer.png' %}" alt="Review Analyzer Dashboard">
+                    </div>
+                    <div class="project-content">
+                        <h3>Review Analyzer</h3>
+                        <p>Developed a review analysis web application using Django and MySQL. The system manages customer reviews, processes review data, and provides analytical insights through an interactive dashboard.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">Django</span>
+                            <span class="project-tag">MySQL</span>
+                            <span class="project-tag">HTML</span>
+                            <span class="project-tag">CSS</span>
+                            <span class="project-tag">JavaScript</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/sarithasankari/Review-Analyzer" class="btn" target="_blank">View Project</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3: Roadside Assistance Platform -->
+                <div class="project-card">
+                    <div class="project-img">
+                        <img src="{% static 'portfolio/images/road.jpg' %}" alt="Roadside Assistance Platform">
+                    </div>
+                    <div class="project-content">
+                        <h3>Roadside Assistance Platform</h3>
+                        <p>A comprehensive web application connecting users with roadside service providers for emergency vehicle assistance, towing, and repair services.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">HTML</span>
+                            <span class="project-tag">CSS</span>
+                            <span class="project-tag">JavaScript</span>
+                            <span class="project-tag">Django</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/sarithasankari/Roadside-Assistance" class="btn" target="_blank">View Project</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 4: Online Shopping Website -->
+                <div class="project-card">
+                    <div class="project-img">
+                        <img src="{% static 'portfolio/images/one.jpg' %}" alt="Online Shopping Website">
+                    </div>
+                    <div class="project-content">
+                        <h3>Online Shopping Website</h3>
+                        <p>A fully functional e-commerce website with product listings, shopping cart, and checkout functionality.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">HTML</span>
+                            <span class="project-tag">CSS</span>
+                            <span class="project-tag">JavaScript</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://sarithann.neocities.org/shop/shopping/" class="btn" target="_blank">View Project</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 5: Movie Search App -->
+                <div class="project-card">
+                    <div class="project-img">
+                        <img src="{% static 'portfolio/images/mov.jpg' %}" alt="Movie Search App">
+                    </div>
+                    <div class="project-content">
+                        <h3>Movie Search App</h3>
+                        <p>A dynamic movie search application that fetches data from an API and displays movie details, posters, and ratings.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">HTML</span>
+                            <span class="project-tag">CSS</span>
+                            <span class="project-tag">JavaScript</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://sarithann.neocities.org/movie1/movie/id" class="btn" target="_blank">View Project</a>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
+
 
     <!-- Certifications Section -->
     <section id="certifications" class="certifications">
