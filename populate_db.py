@@ -18,10 +18,24 @@ def populate():
     projects = [
         {
             'title': "Roadside Assistance Platform",
-            'description': "A comprehensive web application connecting users with roadside service providers for emergency vehicle assistance, towing, and repair services.",
+            'description': "A comprehensive web application connecting users with roadside service providers for emergency vehicle assistance, towing, and repair services. It features real-time request tracking, provider matchmaking, and interactive dashboards for smooth service coordination.",
             'image_name': "road.jpg",
             'tags': "HTML, CSS, JavaScript, Django",
-            'link': "https://github.com/sarithasankari/Roadside-Assistance"
+            'link': "https://roadside-assistance-ocu7.onrender.com"
+        },
+        {
+            'title': "Review Analyzer",
+            'description': "Developed a review analysis web application using Django and MySQL. The system manages customer reviews, processes review data, and provides analytical insights through an interactive dashboard.",
+            'image_name': "review_analyzer.png",
+            'tags': "Django, MySQL, HTML, CSS, JavaScript",
+            'link': "https://review-analyzer-1-lgco.onrender.com"
+        },
+        {
+            'title': "Customer Relationship Management (CRM) System",
+            'description': "Developed a full-stack CRM application for managing customer information and business interactions. Built a responsive frontend using React.js and Tailwind CSS, integrated with a Django backend and SQL database. Implemented authentication, customer management, and CRUD functionalities.",
+            'image_name': "crm_project.png",
+            'tags': "React.js, Tailwind CSS, Django, SQL",
+            'link': "https://github.com/sarithasankari/CRM"
         },
         {
             'title': "Online Shopping Website",
@@ -86,16 +100,22 @@ def populate():
     print("\nPopulating Certifications...")
     certs = [
         {
-            'title': "Certificate of Merit - Debugging",
-            'description': "Awarded Second Place in Debugging competition at Government Arts College, Dharmapuri.",
-            'period': "Mar 2023",
-            'image_name': "cr7.jpg"
-        },
-        {
             'title': "Python Full Stack Training",
             'description': 'Successfully completed Python Full Stack training program with Grade "A" from SLA.',
             'period': "Nov 2025",
             'image_name': "cr8.jpg"
+        },
+        {
+            'title': "Problem Solving (Intermediate)",
+            'description': "Passed the HackerRank skill certification test for Problem Solving (Intermediate).",
+            'period': "03 Mar, 2026",
+            'image_name': "hackerrank_cert.png"
+        },
+        {
+            'title': "Certificate of Merit - Debugging",
+            'description': "Awarded Second Place in Debugging competition at Government Arts College, Dharmapuri.",
+            'period': "Mar 2023",
+            'image_name': "cr7.jpg"
         },
         {
             'title': "Web Development Internship",
@@ -104,22 +124,10 @@ def populate():
             'image_name': "cr1.jpg"
         },
         {
-            'title': "Artificial Intelligence Workshop",
-            'description': "Participated in a one-day workshop on Artificial Intelligence at CodeBind Technologies, Chennai.",
-            'period': "2024",
-            'image_name': "cr2.jpg"
-        },
-        {
             'title': "Diploma in Computer Application",
             'description': "Completed Diploma in Computer Application with specialization in IT Fundamentals, Microsoft Office, and Python.",
             'period': "Aug-Nov 2023",
             'image_name': "cr3.jpg"
-        },
-        {
-            'title': "Inplant Training - MEM Development",
-            'description': "Underwent Inplant Training in MEM Development at CodeBind Technologies, Chennai.",
-            'period': "June 2024",
-            'image_name': "cr4.jpg"
         },
         {
             'title': "National Level IT Symposium – SAIT'23",
@@ -132,6 +140,18 @@ def populate():
             'description': 'Successfully completed the project "Online shopping website using HTML, CSS, JavaScript, PHP and MySQL" at CodeBind Technologies.',
             'period': "May-June 2024",
             'image_name': "cr6.jpg"
+        },
+        {
+            'title': "Inplant Training - MEM Development",
+            'description': "Underwent Inplant Training in MEM Development at CodeBind Technologies, Chennai.",
+            'period': "June 2024",
+            'image_name': "cr4.jpg"
+        },
+        {
+            'title': "Artificial Intelligence Workshop",
+            'description': "Participated in a one-day workshop on Artificial Intelligence at CodeBind Technologies, Chennai.",
+            'period': "2024",
+            'image_name': "cr2.jpg"
         },
     ]
 

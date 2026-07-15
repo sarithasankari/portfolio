@@ -20,7 +20,21 @@ def home(request):
 
     projects = Project.objects.all()
     skills = Skill.objects.all()
-    certifications = Certification.objects.all()
+    
+    # Sort certifications in the user's requested order
+    cert_order = [
+        "Python Full Stack Training",
+        "Problem Solving (Intermediate)",
+        "Certificate of Merit - Debugging",
+        "Web Development Internship",
+        "Diploma in Computer Application",
+        "National Level IT Symposium – SAIT'23",
+        "Project Completion Certificate",
+        "Inplant Training - MEM Development",
+        "Artificial Intelligence Workshop"
+    ]
+    certifications = list(Certification.objects.all())
+    certifications.sort(key=lambda c: cert_order.index(c.title) if c.title in cert_order else len(cert_order))
     
     context = {
         'projects': projects,
